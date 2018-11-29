@@ -1,20 +1,42 @@
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
-  var url = "/metadata/<sample>";
-  d3.json(url).then(function(response) {
-    console.log(response);
+ // d3.csv("./belly_button_metadata.csv", function(error, bellyMeta) {
+ //   if (error) return console.warn(error);
+  //  console.log(bellyMeta);
+  //var url = "/metadata/<sample>";
+  //d3.json(url).then(function(response) {
+  //  console.log(response);
 
   // Use `d3.json` to fetch the metadata for a sample
     // Use d3 to select the panel with id of `#sample-metadata`
-    var meta = d3.select("#sample-metadata");
-    var row = meta.append("tr");
-    Object.entries(response).forEach(function([key,value]) {
-      console.log(key,value);
-      var cell = row.append("td");
-      cell.text(value);
-    });
-  });
+    var selector = d3.select("#sample-metadata");
+
+    selector.html("");
+    d3.json(`/metadata`+`${sample}`).then((metaSample) => {
+      Object.entries(metaSample).forEach(function([key,value]){
+        console.log(key,value);
+        selector
+          .append("sample")
+          .text(`${key}:${value}`)
+        });
+      });
+   //////connection to the metadata is fuzzy, thought I could connect it on a click
+    //var selection = ul.selectAll("li")
+    //  .data(bellyMeta)
+    //  .enter()
+    //  .append("li")
+
+    //  .text(function(d) {
+    //    return d;
+    //  });
+   // });
+    //Object.entries(response).forEach(function([key,value]) {
+    //  console.log(key,value);
+     // var cell = row.append("td");
+     // cell.text(value);
+    //});
+  //});
   
     // Use `.html("") to clear any existing metadata
 
