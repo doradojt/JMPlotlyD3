@@ -13,7 +13,7 @@ function buildMetadata(sample) {
     var selector = d3.select("#sample-metadata");
 
     selector.html("");
-    d3.json(`/metadata`+`${sample}`).then((metaSample) => {
+    d3.json(`/metadata/`+`${sample}`).then((metaSample) => {
       Object.entries(metaSample).forEach(function([key,value]){
         console.log(key,value);
         selector
