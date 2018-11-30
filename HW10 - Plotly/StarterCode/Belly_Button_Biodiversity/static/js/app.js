@@ -17,7 +17,7 @@ function buildMetadata(sample) {
       Object.entries(metaSample).forEach(function([key,value]){
         console.log(key,value);
         selector
-          .append("sample")
+          .append("p")
           .text(`${key}:${value}`)
         });
       });
