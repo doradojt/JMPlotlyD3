@@ -20,7 +20,7 @@ function buildMetadata(sample) {
         //var bb_type = metaSample.dataset.BBTYPE;
         selector
           .append("p")
-          .text(<strong>`${key}:${value}`</strong>)
+          .text(`${key}:${value}`);
         });
       });
    //////connection to the metadata is fuzzy, thought I could connect it on a click
@@ -62,6 +62,10 @@ function buildCharts(sample) {
   d3.json(url).then(function(data) {
     console.log(data);
 
+    var otu_ids = data["otu_ids"];
+    var sample_values = data["sample_values"];
+    var otu_labels = data["otu_labels"];
+
     var trace = {
       x: data.otu_ids, 
       y: data.sample_values,
@@ -69,17 +73,20 @@ function buildCharts(sample) {
       mode: "markers",
       name: "sample names",
       marker: {
-        color: "otu_ids",
-        size: "sample_values",
-        text: "otu_labels",
+       color: otu_ids,
+        size: sample_values,
         symbol: "circle"
-      }
+      },
+      //hoverinfo: otu_ids,
+      text: otu_labels,
     };
 
     var data = [trace];
 
-    var layout = {
+   var layout = {
       title: "Bubble Chart",
+      margin: { t:0 },
+      hovermode: "closest",
       xaxis: {title: "OTU ID"},
       yaxis: {title: ""}
     };
@@ -94,23 +101,24 @@ function buildCharts(sample) {
     console.log(data);
 
     var trace1 = {
-      labels: data.otu_ids,
-      values: data.sample_values,
-      type: 'pie'
+      labels: data.otu_ids.slice(0,10),
+      values: data.sample_values.slice(0,10),
+      type: 'pie',
+      hovertext: data.otu_labels.slice(0,10),
     };
     var data = [trace1];
     var layout = {
-      title: "Bar Chart",
+      title: "Pie Chart",
     };
   
     Plotly.newPlot("pie", data, layout);
   })
 
-    // @TODO: Build a Bubble Chart using the sample data
+     //@TODO: Build a Bubble Chart using the sample data
 
     // @TODO: Build a Pie Chart
-    // HINT: You will need to use slice() to grab the top 10 sample_values,
-    // otu_ids, and labels (10 each).
+     //HINT: You will need to use slice() to grab the top 10 sample_values,
+     //otu_ids, and labels (10 each).
 }
 
 function init() {
