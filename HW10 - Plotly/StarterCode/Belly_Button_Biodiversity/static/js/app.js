@@ -16,9 +16,11 @@ function buildMetadata(sample) {
     d3.json(`/metadata/`+`${sample}`).then((metaSample) => {
       Object.entries(metaSample).forEach(function([key,value]){
         console.log(key,value);
+        //var age = metaSample.dataset.AGE;
+        //var bb_type = metaSample.dataset.BBTYPE;
         selector
           .append("p")
-          .text(`${key}:${value}`)
+          .text(<strong>`${key}:${value}`</strong>)
         });
       });
    //////connection to the metadata is fuzzy, thought I could connect it on a click
@@ -48,9 +50,61 @@ function buildMetadata(sample) {
     // buildGauge(data.WFREQ);
 }
 
+
+
 function buildCharts(sample) {
 
   // @TODO: Use `d3.json` to fetch the sample data for the plots
+  //var selector = d3.select("#bubble");
+
+  var url = (`/samples/`+`${sample}`);
+
+  d3.json(url).then(function(data) {
+    console.log(data);
+
+    var trace = {
+      x: data.otu_ids, 
+      y: data.sample_values,
+      type: "scatter",
+      mode: "markers",
+      name: "sample names",
+      marker: {
+        color: "otu_ids",
+        size: "sample_values",
+        text: "otu_labels",
+        symbol: "circle"
+      }
+    };
+
+    var data = [trace];
+
+    var layout = {
+      title: "Bubble Chart",
+      xaxis: {title: "OTU ID"},
+      yaxis: {title: ""}
+    };
+
+  Plotly.newPlot("bubble", data, layout);
+
+  })
+
+  var url =(`/samples/`+`${sample}`);
+
+  d3.json(url).then(function(data) {
+    console.log(data);
+
+    var trace1 = {
+      labels: data.otu_ids,
+      values: data.sample_values,
+      type: 'pie'
+    };
+    var data = [trace1];
+    var layout = {
+      title: "Bar Chart",
+    };
+  
+    Plotly.newPlot("pie", data, layout);
+  })
 
     // @TODO: Build a Bubble Chart using the sample data
 
