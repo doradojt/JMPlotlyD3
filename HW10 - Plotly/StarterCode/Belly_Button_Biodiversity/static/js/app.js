@@ -1,12 +1,6 @@
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
- // d3.csv("./belly_button_metadata.csv", function(error, bellyMeta) {
- //   if (error) return console.warn(error);
-  //  console.log(bellyMeta);
-  //var url = "/metadata/<sample>";
-  //d3.json(url).then(function(response) {
-  //  console.log(response);
 
   // Use `d3.json` to fetch the metadata for a sample
     // Use d3 to select the panel with id of `#sample-metadata`
@@ -16,30 +10,12 @@ function buildMetadata(sample) {
     d3.json(`/metadata/`+`${sample}`).then((metaSample) => {
       Object.entries(metaSample).forEach(function([key,value]){
         console.log(key,value);
-        //var age = metaSample.dataset.AGE;
-        //var bb_type = metaSample.dataset.BBTYPE;
         selector
           .append("p")
           .text(`${key}:${value}`);
         });
       });
-   //////connection to the metadata is fuzzy, thought I could connect it on a click
-    //var selection = ul.selectAll("li")
-    //  .data(bellyMeta)
-    //  .enter()
-    //  .append("li")
 
-    //  .text(function(d) {
-    //    return d;
-    //  });
-   // });
-    //Object.entries(response).forEach(function([key,value]) {
-    //  console.log(key,value);
-     // var cell = row.append("td");
-     // cell.text(value);
-    //});
-  //});
-  
     // Use `.html("") to clear any existing metadata
 
     // Use `Object.entries` to add each key and value pair to the panel
@@ -77,7 +53,6 @@ function buildCharts(sample) {
         size: sample_values,
         symbol: "circle"
       },
-      //hoverinfo: otu_ids,
       text: otu_labels,
     };
 
